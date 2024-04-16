@@ -115,8 +115,7 @@ def speak_response(message_sid: str, voice: VoiceType = VoiceType.voice4, cookie
         'TE': 'trailers',
     }
 
-    response = requests.get(f'https://pi.ai/api/chat/voice?messageSid={
-                            message_sid}&voice={voice.value}&mode=eager', headers=headers, stream=True)
+    response = requests.get(f'https://pi.ai/api/chat/voice?messageSid={message_sid}&voice={voice.value}&mode=eager', headers=headers, stream=True)
 
     # Ensure the request was successful
     if response.status_code == 200:

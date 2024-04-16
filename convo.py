@@ -12,16 +12,16 @@ while True:
         r.adjust_for_ambient_noise(source)
         audio = r.listen(source)
 
-
     # recognize speech using Google Speech Recognition
     try:
         print("Google Speech Recognition thinks you said:")
         print(r.recognize_google(audio))
-        rs = get_response(r.recognize_google(audio))
-        print(rs[0])
-        print(rs[1])
+        (response_texts, response_sid) = get_response(r.recognize_google(audio))
+        print(response_texts)
+        print(response_sid)
 
-        speak_response(rs[1])
+        if response_sid:
+            speak_response(response_sid)
 
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")

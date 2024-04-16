@@ -1,3 +1,4 @@
+import functools
 import requests
 import enum
 import os
@@ -20,6 +21,7 @@ class VoiceType(enum.Enum):
     qdpi = "qdpi",
 
 
+@functools.cache
 def get_cookie() -> str:
     headers = {
         'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0',
@@ -47,7 +49,7 @@ def get_cookie() -> str:
     return response.headers['Set-Cookie']
 
 
-def get_response(cookie: str, input_text) -> tuple[list, str | None]:
+def get_response(input_text, cookie: str = get_cookie()) -> tuple[list, str | None]:
     headers = {
         'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0',
         'Accept': 'text/event-stream',
@@ -95,7 +97,7 @@ def get_response(cookie: str, input_text) -> tuple[list, str | None]:
     return response_texts, response_sid
 
 
-def speak_response(cookie: str, message_sid: str, voice: VoiceType = VoiceType.voice4) -> None:
+def speak_response(message_sid: str, voice: VoiceType = VoiceType.voice4, cookie: str = get_cookie()) -> None:
     headers = {
         'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0',
         'Accept': 'audio/webm,audio/ogg,audio/wav,audio/*;q=0.9,application/ogg;q=0.7,video/*;q=0.6,*/*;q=0.5',

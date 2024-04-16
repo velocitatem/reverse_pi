@@ -16,7 +16,6 @@ while True:
     try:
         print("Google Speech Recognition thinks you said:")
         input_text = r.recognize_google(audio)
-        print(r.recognize_google(audio))
         (response_texts, response_sids) = get_response(input_text)
         print(response_texts)
         print(response_sids)

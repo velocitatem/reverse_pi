@@ -49,7 +49,7 @@ def get_cookie() -> str:
     return response.headers['Set-Cookie']
 
 
-def get_response(input_text, cookie: str = get_cookie()) -> tuple[list, str | None]:
+def get_response(input_text, cookie: str = get_cookie()) -> tuple[list[str], list[str]]:
     headers = {
         'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0',
         'Accept': 'text/event-stream',
@@ -78,7 +78,7 @@ def get_response(input_text, cookie: str = get_cookie()) -> tuple[list, str | No
 
     response_lines = response.text.split("\n")
     response_texts = []
-    response_sid = None
+    response_sids = []
 
     for line in response_lines:
         if line.startswith('data: {"text":"'):
@@ -92,9 +92,9 @@ def get_response(input_text, cookie: str = get_cookie()) -> tuple[list, str | No
             end = line.rindex('}')
             sid_dict = line[start:end-1].strip()
             sid_dict = sid_dict.split(",")[0][1:-1]
-            response_sid = sid_dict
+            response_sids.append(sid_dict)
 
-    return response_texts, response_sid
+    return response_texts, response_sids
 
 
 def speak_response(message_sid: str, voice: VoiceType = VoiceType.voice4, cookie: str = get_cookie()) -> None:
